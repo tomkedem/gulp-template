@@ -1,6 +1,9 @@
 const gulp =  require("gulp");
 const sass = require('gulp-sass')(require('sass'));
 const sourcemaps = require("gulp-sourcemaps");
+const browserSync =require("browser-sync").create();
+
+// Saas
 
 gulp.task("sass", function(done){
    return gulp
@@ -12,11 +15,22 @@ gulp.task("sass", function(done){
         .pipe(sass())
         .pipe(sourcemaps.write("."))
         .pipe(gulp.dest("./dist/css"))
+        .on('end', done); // Call done() when the task is finished
     done();
 })
 
-gulp.task("watch",function(){
-    gulp.watch('./src/sass/**/*.scss', gulp.series(["sass"]))
-})
+// Watch task with BrowserSync
 
-gulp.task('default', gulp.series('watch'))
+gulp.task("watch",function(){
+    browserSync.init({
+        server: {
+            baseDir: "./"
+        },
+        browser: ["chrome"]
+    });
+    gulp
+    .watch(["./src/sass/**/*.scss","**/*.html"], gulp.series("sass")) 
+     .on("change", browserSync.reload)
+});
+
+gulp.task('default', gulp.series('watch'));
