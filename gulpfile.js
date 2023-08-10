@@ -2,12 +2,11 @@ const gulp = require("gulp");
 const sass = require('gulp-sass')(require('sass'));
 const sourcemaps = require("gulp-sourcemaps");
 const browserSync = require("browser-sync").create();
-
 const less = require('gulp-less');
 const path = require('path');
 // Sass and Less
 
-gulp.task("sass", function(done){
+gulp.task("styles", function(done){
    return (
     gulp
         .src(["./src/sass/**/*.scss", "!./src/sass/widget.scss"])
@@ -35,18 +34,22 @@ gulp.task("less", function(done) {
         .on('end', done) // Call done() when the task is finished
     );
   });
+  
 // Watch task with BrowserSync
 
-gulp.task("watch",function(){
-    browserSync.init({
-        server: {
-            baseDir: "./"
-        },
-        browser: ["chrome"]
+gulp.task("watch", gulp.series("styles", function () {
+  browserSync.init({
+    server: {
+      baseDir: "./"
+    },
+    browser: ["chrome"]
+  });
+  gulp
+    .watch(["./src/sass/**/*.scss", "**/*.html"], gulp.series("styles"))
+    .on("change", function (path) {
+      console.log("File " + path + " was changed. Reloading...");
+      browserSync.reload();
     });
-    gulp
-    .watch(["./src/sass/**/*.scss","**/*.html"], gulp.series("sass")) 
-     .on("change", browserSync.reload)
-});
+}));
 
 gulp.task('default', gulp.series('watch'));
