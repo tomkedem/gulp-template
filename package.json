@@ -15,6 +15,7 @@
     "sass": "^1.65.1"
   },
   "dependencies": {
+    "gulp-less": "^5.0.0",
     "gulp-sourcemaps": "^3.0.0"
   }
 }
