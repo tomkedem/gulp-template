@@ -8,6 +8,7 @@ import uglify from "gulp-uglify";
 import rename from "gulp-rename";
 import concat from "gulp-concat";
 import imagemin from "gulp-imagemin";
+import cache from "gulp-cache";
 
 
 
@@ -62,7 +63,7 @@ export function imageminTask() {
     return (
         gulp
             .src("./src/img/**/*.+(png|jpg|gif|svg)")
-            .pipe(imagemin())
+            .pipe(cache(imagemin()))
             .pipe(gulp.dest("./dist/img/"))
     );
 }
@@ -76,11 +77,23 @@ export function watch() {
       browser: ["chrome"]
   });
   gulp
-      .watch(["./src/sass/**/*.scss", "**/*.html", "./src/less/styles.less", "./src/js/**/*.js"], gulp.series(styles, lessTask, javascript, imageminTask))
+      .watch(
+        [
+          "./src/sass/**/*.scss", 
+          "**/*.html", 
+          "./src/less/styles.less", 
+          "./src/js/**/*.js",
+          "./src/img/**/*.+(png|jpg|gif|svg)"
+        ],
+        gulp.series(styles, lessTask, javascript, imageminTask))
       .on("change", function (path) {
           console.log("File " + path + " was changed. Reloading...");
           browserSync.reload();
       });
+}
+
+export function clearCacheTask() {
+  return cache.clearAll()
 }
 
 export default gulp.series(gulp.parallel(styles, lessTask, javascript, imageminTask), watch);
