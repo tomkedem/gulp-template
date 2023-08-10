@@ -95,5 +95,5 @@ export function watch() {
 export function clearCacheTask() {
   return cache.clearAll()
 }
-
+// Gulp default command
 export default gulp.series(gulp.parallel(styles, lessTask, javascript, imageminTask), watch);
