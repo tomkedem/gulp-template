@@ -9,11 +9,12 @@ import rename from "gulp-rename";
 import concat from "gulp-concat";
 import imagemin from "gulp-imagemin";
 import cache from "gulp-cache";
+import kit from "gulp-kit";
 
 
 
 // Sass and Less
-export function styles() {
+export function stylesTask() {
   return (
       gulp
           .src(["./src/sass/**/*.scss", "!./src/sass/widget.scss"])
@@ -45,9 +46,9 @@ export function lessTask() {
     );
 }
 
-// JavaScript
+// javascript
 
-export function javascript() {
+export function javascriptTask() {
     return (
         gulp
             .src(["./src/js/alert.js", "./src/js/project.js"])
@@ -67,6 +68,15 @@ export function imageminTask() {
             .pipe(gulp.dest("./dist/img/"))
     );
 }
+// HTML kit templating
+export function kitTask(){
+  return (
+    gulp
+        .src("./html/**/*.kit)")
+        .pipe(kit())
+        .pipe(gulp.dest("./"))
+  )
+}
 
 // Watch task with BrowserSync
 export function watch() {
@@ -80,12 +90,12 @@ export function watch() {
       .watch(
         [
           "./src/sass/**/*.scss", 
-          "**/*.html", 
+          "./html/**/*.kit", 
           "./src/less/styles.less", 
           "./src/js/**/*.js",
           "./src/img/**/*.+(png|jpg|gif|svg)"
         ],
-        gulp.series(styles, lessTask, javascript, imageminTask))
+        gulp.series(stylesTask, lessTask, javascriptTask, imageminTask, kitTask))
       .on("change", function (path) {
           console.log("File " + path + " was changed. Reloading...");
           browserSync.reload();
@@ -96,4 +106,4 @@ export function clearCacheTask() {
   return cache.clearAll()
 }
 // Gulp default command
-export default gulp.series(gulp.parallel(styles, lessTask, javascript, imageminTask), watch);
+export default gulp.series(gulp.parallel(stylesTask, lessTask, javascriptTask, imageminTask, kitTask), watch);
