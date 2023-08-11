@@ -11,6 +11,10 @@ import imagemin from 'gulp-imagemin';
 import cache from 'gulp-cache';
 import kit from 'gulp-kit';
 
+import htmlmin from 'gulp-htmlmin';
+import autoprefixer from "autoprefixer";
+import postcss from "postcss";
+
 // Sass and Less
 export function stylesTask() {
   return (
@@ -70,7 +74,10 @@ export function imageminTask() {
 export function kitTask() {
   return gulp
     .src("./html/**/*.kit")
-    .pipe(kit())
+    .pipe(kit())    
+    .pipe(htmlmin({
+      collapseWhitespace: true
+    }))
     .pipe(gulp.dest("./"));
 }
 
