@@ -1,17 +1,15 @@
-import gulp from "gulp";
+import gulp from 'gulp';
 import sass from 'gulp-dart-sass';
-import sourcemaps from "gulp-sourcemaps";
-import browserSync from "browser-sync";
+import sourcemaps from 'gulp-sourcemaps';
+import browserSync from 'browser-sync';
 import less from 'gulp-less';
-import cssnano from "gulp-cssnano";
-import uglify from "gulp-uglify";
-import rename from "gulp-rename";
-import concat from "gulp-concat";
-import imagemin from "gulp-imagemin";
-import cache from "gulp-cache";
-import kit from "gulp-kit";
-
-
+import cssnano from 'gulp-cssnano';
+import uglify from 'gulp-uglify';
+import rename from 'gulp-rename';
+import concat from 'gulp-concat';
+import imagemin from 'gulp-imagemin';
+import cache from 'gulp-cache';
+import kit from 'gulp-kit';
 
 // Sass and Less
 export function stylesTask() {
@@ -69,13 +67,11 @@ export function imageminTask() {
     );
 }
 // HTML kit templating
-export function kitTask(){
-  return (
-    gulp
-        .src("./html/**/*.kit)")
-        .pipe(kit())
-        .pipe(gulp.dest("./"))
-  )
+export function kitTask() {
+  return gulp
+    .src("./html/**/*.kit")
+    .pipe(kit())
+    .pipe(gulp.dest("./"));
 }
 
 // Watch task with BrowserSync
