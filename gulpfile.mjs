@@ -16,6 +16,8 @@ import autoprefixer from 'autoprefixer';
 import babel from 'gulp-babel';
 import zip from 'gulp-zip';
 import {deleteAsync} from 'del';
+import plumber from 'gulp-plumber';
+import notifier from 'gulp-notifier';
 
 const filePath ={
   sass: "./src/sass/**/*.scss",
@@ -31,6 +33,7 @@ export function stylesTask() {
   return (    
       gulp      
           .src([filePath.sass, "!./src/sass/widget.scss"])
+          .pipe(plumber({errorHandler: notifier.error }))
           .pipe(sourcemaps.init())         
           .pipe(postcss(plugin))        
           .pipe(sass().on('error', sass.logError))
