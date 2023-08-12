@@ -54,6 +54,7 @@ export function lessTask() {
     return (
         gulp
             .src([filePath.less])
+            .pipe(plumber({errorHandler: notifier.error }))
             .pipe(sourcemaps.init())
             .pipe(less())
             .pipe(cssnano())
@@ -69,6 +70,7 @@ export function javascriptTask() {
     return (
         gulp
             .src(["./src/js/alert.js", "./src/js/project.js"])
+            .pipe(plumber({errorHandler: notifier.error }))
             .pipe(babel({
               presets: ['@babel/env']
             }))
@@ -92,6 +94,7 @@ export function imageminTask() {
 export function kitTask() {
   return gulp
     .src(filePath.html)
+    .pipe(plumber({errorHandler: notifier.error }))
     .pipe(kit())    
     .pipe(htmlmin({
       collapseWhitespace: true
