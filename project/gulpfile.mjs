@@ -15,7 +15,6 @@ import htmlmin from 'gulp-htmlmin';
 import autoprefixer from 'autoprefixer';
 import babel from 'gulp-babel';
 import zip from 'gulp-zip';
-import {deleteAsync} from 'del';
 
 const filePath ={
   sass: "./src/sass/**/*.scss",
@@ -133,13 +132,5 @@ export function zipTask() {
     gulp.src(["./**/*","!./node_modules/**/*"])
       .pipe(zip("project.zip"))
       .pipe(gulp.dest("./"))
-  )
-}
-
-// Cleam "dist" folder
-
-export function cleanDistTask() {
-  return (
-    deleteAsync(["./dist/**/*"])
   )
 }
