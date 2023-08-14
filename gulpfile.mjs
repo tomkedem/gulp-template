@@ -19,6 +19,17 @@ import {deleteAsync} from 'del';
 import plumber from 'gulp-plumber';
 import notifier from 'gulp-notifier';
 
+notifier.defaults({
+  message:{
+    sass: "CSS was successfully compiled!",
+    js: "Javascript is ready!",
+    kit: "Html was delivered!"
+  },
+  prefix: "====",
+  suffix: "====",
+  exclusios:".map"
+})
+
 const filePath ={
   sass: "./src/sass/**/*.scss",
   less: "./src/less/styles.less",
@@ -27,7 +38,7 @@ const filePath ={
   html: "./html/**/*.kit"
 
 }
-// Sass and Less
+// stylesTask and Less
 export function stylesTask() {
   var plugin = [autoprefixer()];
   return (    
@@ -45,6 +56,7 @@ export function stylesTask() {
               }
           }))
           .pipe(gulp.dest("./dist/css"))
+          // .pipe(notifier.success("sass"))
   );
 }
 
@@ -78,6 +90,7 @@ export function javascriptTask() {
             .pipe(uglify())
             .pipe(rename({ suffix: ".min" }))
             .pipe(gulp.dest("./dist/js"))
+            // .pipe(notifier.success("js"))
     );
 }
 
@@ -93,13 +106,15 @@ export function imageminTask() {
 // HTML kit templating
 export function kitTask() {
   return gulp
-    .src(filePath.html)
-    .pipe(plumber({errorHandler: notifier.error }))
-    .pipe(kit())    
-    .pipe(htmlmin({
-      collapseWhitespace: true
-    }))
-    .pipe(gulp.dest("./"));
+          .src(filePath.html)
+          .pipe(plumber({errorHandler: notifier.error }))
+          .pipe(kit())    
+          .pipe(htmlmin({
+            collapseWhitespace: true
+          }))
+          .pipe(gulp.dest("./"))
+          // .pipe(notifier.success("kit"))
+    
 }
 
 // Watch task with BrowserSync
