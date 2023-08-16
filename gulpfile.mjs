@@ -1,4 +1,5 @@
 import gulp from 'gulp';
+const { parallel } = gulp;
 import sass from 'gulp-dart-sass';
 import sourcemaps from 'gulp-sourcemaps';
 import browserSync from 'browser-sync';
@@ -39,6 +40,7 @@ const filePath ={
 
 }
 // stylesTask and Less
+
 export function stylesTask() {
   var plugin = [autoprefixer()];
   return (    
@@ -125,27 +127,17 @@ export function watch() {
       },
       browser: ["chrome"]
   });
-  gulp
-      .watch(
-        [
-          filePath.sass, 
-          filePath.html, 
-          filePath.less, 
-          filePath.js,
-          filePath.images
-        ],
-        gulp.parallel(stylesTask, lessTask, javascriptTask, imageminTask, kitTask))
-      .on("change", function (path) {
-          console.log("File " + path + " was changed. Reloading...");
-          browserSync.reload();
-      });
+ 
+  gulp.watch(filePath.sass, gulp.task("stylesTask")).on("change", browserSync.reload());
+  gulp.watch(filePath.less, gulp.task("lessTask")).on("change", browserSync.reload());
+  gulp.watch(filePath.html, gulp.task("kitTask")).on("change", browserSync.reload());
+  gulp.watch(filePath.js, gulp.task("javascriptTask")).on("change", browserSync.reload());
+  gulp.watch(filePath.images, gulp.task("imageminTask")).on("change", browserSync.reload());
 }
 
 export function clearCacheTask() {
   return cache.clearAll()
 }
-// Gulp default command
-export default gulp.series(gulp.parallel(clearCacheTask,stylesTask, lessTask, javascriptTask, imageminTask, kitTask), watch);
 
 // Zip project
 
@@ -164,3 +156,10 @@ export function cleanDistTask() {
     deleteAsync(["./dist/**/*"])
   )
 }
+
+// Gulp serve
+
+export const build = parallel(clearCacheTask,stylesTask, lessTask, javascriptTask, imageminTask, kitTask);
+
+// Gulp default command
+export default gulp.series(build, watch);
