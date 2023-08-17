@@ -24,15 +24,13 @@
 
     Glob - a string of literal and/or wildcard characters used to match filepaths.
 
-
-
- *.file_name_extension (e.g. "scripts/*.js") - matches all the files within one directory. Children files and folders are not included
+ # *.file_name_extension (e.g. "scripts/*.js") - matches all the files within one directory. Children files and folders are not included
 --------------------------------------
 
- **/*.file_name_extension (e.g. "scripts/**/*.js") - matches all the files within one directory, INCLUDING all the children folders and files
+ # **/*.file_name_extension (e.g. "scripts/**/*.js") - matches all the files within one directory, INCLUDING all the children folders and files
 
 --------------------------------------
- !full_file_or_folder_name (e.g. "!main.scss" or "!node_modules/**") - negative glob. Excludes file/files and folders. Use it only after the positive globs
+ # !full_file_or_folder_name (e.g. "!main.scss" or "!node_modules/**") - negative glob. Excludes file/files and folders. Use it only after the positive globs
 
 
 3. Gulp workflow:
