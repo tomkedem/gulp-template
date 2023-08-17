@@ -122,18 +122,19 @@ export function kitTask() {
 // Watch task with BrowserSync
 export function watch() {
   browserSync.init({
-      server: {
-          baseDir: "./"
-      },
-      browser: ["chrome"]
+    server: {
+      baseDir: "./"
+    },
+    browser: ["chrome"]
   });
- 
-  gulp.watch(filePath.sass, gulp.task("stylesTask")).on("change", browserSync.reload());
-  gulp.watch(filePath.less, gulp.task("lessTask")).on("change", browserSync.reload());
-  gulp.watch(filePath.html, gulp.task("kitTask")).on("change", browserSync.reload());
-  gulp.watch(filePath.js, gulp.task("javascriptTask")).on("change", browserSync.reload());
-  gulp.watch(filePath.images, gulp.task("imageminTask")).on("change", browserSync.reload());
+
+  gulp.watch(filePath.sass, gulp.task("stylesTask")).on("change", browserSync.reload);
+  gulp.watch(filePath.less, gulp.task("lessTask")).on("change", browserSync.reload);
+  gulp.watch(filePath.html, gulp.task("kitTask")).on("change", browserSync.reload);
+  gulp.watch(filePath.js, gulp.task("javascriptTask")).on("change", browserSync.reload);
+  gulp.watch(filePath.images, gulp.task("imageminTask")).on("change", browserSync.reload);
 }
+
 
 export function clearCacheTask() {
   return cache.clearAll()
